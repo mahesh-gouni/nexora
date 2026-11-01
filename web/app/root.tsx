@@ -12,6 +12,8 @@ import type { Route } from "./+types/root";
 import "@fontsource-variable/inter";
 import "@fontsource-variable/manrope";
 import "@fontsource-variable/jetbrains-mono";
+import "@fontsource/instrument-serif/400.css";
+import "@fontsource/instrument-serif/400-italic.css";
 import "./app.css";
 import manropeLatin from "@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2?url";
 import interLatin from "@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url";
@@ -52,7 +54,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#171a1c" />
+        <meta name="theme-color" content="#0b0e10" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <style dangerouslySetInnerHTML={{ __html: noJsCss }} />
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
@@ -96,7 +98,7 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
     import.meta.env.DEV && error instanceof Error ? error.stack : undefined;
 
   return (
-    <div className="mx-auto flex max-w-2xl flex-col items-start px-4 py-24 sm:px-6">
+    <div className="mx-auto flex max-w-2xl flex-col items-start px-4 pt-40 pb-24 sm:px-6">
       <title>{`${title} · Nexora`}</title>
       <meta name="robots" content="noindex" />
       <p className="text-brand-ink font-mono text-sm">

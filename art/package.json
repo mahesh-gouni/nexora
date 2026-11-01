@@ -1,0 +1,13 @@
+{
+  "name": "nexora-art",
+  "private": true,
+  "type": "module",
+  "description": "Source scenes for Nexora's 3D artwork (Three.js, rendered in headless Chromium).",
+  "scripts": {
+    "export": "node export.mjs"
+  },
+  "dependencies": {
+    "sharp": "^0.35.5",
+    "three": "^0.187.0"
+  }
+}

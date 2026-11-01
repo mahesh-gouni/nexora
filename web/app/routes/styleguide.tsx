@@ -73,7 +73,7 @@ export default function Styleguide() {
     <>
       <PageHero
         eyebrow="Internal"
-        title="Nexora styleguide"
+        lines={["Nexora styleguide"]}
         lead="Every token and component used on the site. Toggle the theme to check both modes. This page is not linked from the navigation and is hidden from search engines."
       />
       <Section className="pt-8 sm:pt-8">

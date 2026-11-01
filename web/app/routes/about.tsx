@@ -1,14 +1,11 @@
 import type { Route } from "./+types/about";
-
-import {
-  Container,
-  PageHero,
-  Section,
-  SectionHeading,
-} from "~/components/section";
-import { Reveal, RevealGroup, RevealItem } from "~/components/motion";
+import { Accent, Container, Eyebrow, PageHero } from "~/components/section";
+import { Reveal } from "~/components/motion";
+import { ScrollWords } from "~/components/fx";
+import { Principles } from "~/components/home/principles";
+import { Process } from "~/components/home/process";
+import { Stack } from "~/components/home/stack";
 import { CtaBand } from "~/components/cta-band";
-import { principles, process, stack } from "~/content/about";
 import { pageMeta } from "~/lib/site";
 
 export function meta({}: Route.MetaArgs) {
@@ -25,96 +22,60 @@ export default function About() {
     <>
       <PageHero
         eyebrow="About"
-        title="An independent studio for business software"
+        art="about"
+        lines={[
+          "An independent studio",
+          <>
+            for business <Accent>software</Accent>.
+          </>,
+        ]}
         lead="Nexora turns business ideas into working software: web applications, e-commerce, ERP and admin systems, built carefully and explained clearly."
       />
 
-      <Section>
-        <Container className="grid gap-12 md:grid-cols-[1fr_1.3fr]">
+      <section aria-labelledby="story-title" className="py-24 sm:py-32">
+        <Container className="grid gap-14 lg:grid-cols-[0.9fr_1.1fr]">
           <Reveal>
-            <h2 className="text-3xl font-bold">Why Nexora exists</h2>
+            <Eyebrow>Why Nexora exists</Eyebrow>
+            <h2
+              id="story-title"
+              className="mt-4 text-4xl leading-[1.05] font-extrabold sm:text-5xl"
+            >
+              A third option between <Accent>rigid tools</Accent> and big
+              agencies
+            </h2>
           </Reveal>
-          <Reveal className="text-muted space-y-5 text-lg leading-relaxed">
+          <Reveal className="text-muted space-y-6 text-lg leading-relaxed">
             <p>
               Many small and growing businesses are stuck between two bad
-              options: rigid off-the-shelf tools, or expensive agencies with
-              layers of people between them and the code.
+              options: off-the-shelf tools that never quite fit, or expensive
+              agencies with layers of people between them and the code.
             </p>
             <p>
-              Nexora is a third option. It is a deliberately small, independent
-              studio. You work directly with the engineer who designs and builds
-              your software, and every project is built on reusable, tested
-              foundations rather than written from scratch.
+              Nexora is deliberately small and independent. You work directly
+              with the engineer who designs and builds your software, and every
+              project starts from reusable, tested foundations rather than a
+              blank page.
             </p>
-            <p>
+            <p className="text-text">
               Nexora is new, and says so. Its portfolio is being built in the
-              open: the first products are listed on the Products page with
-              their real status.
+              open, starting with the products on the roadmap.
             </p>
           </Reveal>
         </Container>
-      </Section>
+      </section>
 
-      <Section className="border-border bg-surface-sunken/50 border-y">
+      <section aria-label="Promise" className="stage bg-grain py-24 sm:py-32">
         <Container>
-          <SectionHeading eyebrow="Principles" title="How Nexora works" />
-          <RevealGroup className="mt-12 grid gap-x-8 gap-y-10 sm:grid-cols-2">
-            {principles.map((p) => (
-              <RevealItem key={p.title} className="flex gap-4">
-                <span className="rounded-control border-border bg-surface text-brand-ink inline-flex size-10 shrink-0 items-center justify-center border">
-                  <p.icon className="size-5" aria-hidden />
-                </span>
-                <div>
-                  <h3 className="text-lg font-bold">{p.title}</h3>
-                  <p className="text-muted mt-1.5 leading-relaxed">{p.body}</p>
-                </div>
-              </RevealItem>
-            ))}
-          </RevealGroup>
-        </Container>
-      </Section>
-
-      <Section>
-        <Container>
-          <SectionHeading
-            eyebrow="Engagement"
-            title="What working together looks like"
+          <ScrollWords
+            className="font-display text-[clamp(1.8rem,4vw,3.4rem)] leading-[1.15] font-bold tracking-[-0.02em]"
+            text="No invented case studies. No inflated numbers. Just clear scope, honest progress, and software that does what it was built to do."
           />
-          <ol className="mt-12 grid gap-4 md:grid-cols-4">
-            {process.map((step) => (
-              <li
-                key={step.step}
-                className="rounded-panel border-border border p-6"
-              >
-                <span className="text-brand-ink font-mono text-sm font-medium">
-                  {step.step}
-                </span>
-                <h3 className="mt-3 text-lg font-bold">{step.title}</h3>
-                <p className="text-muted mt-2 leading-relaxed">{step.body}</p>
-              </li>
-            ))}
-          </ol>
-
-          <div className="rounded-panel border-border bg-surface mt-16 border p-6 sm:p-8">
-            <h2 className="text-xl font-bold">Technology</h2>
-            <p className="text-muted mt-2 max-w-2xl">
-              Mainstream, well-supported tools, chosen so your software stays
-              easy to maintain and to hand over.
-            </p>
-            <ul className="mt-5 flex flex-wrap gap-2">
-              {stack.map((t) => (
-                <li
-                  key={t}
-                  className="border-border bg-surface-sunken rounded-full border px-3 py-1.5 font-mono text-[13px]"
-                >
-                  {t}
-                </li>
-              ))}
-            </ul>
-          </div>
         </Container>
-      </Section>
+      </section>
 
+      <Principles art="svc-saas" />
+      <Process />
+      <Stack />
       <CtaBand />
     </>
   );

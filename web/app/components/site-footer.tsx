@@ -1,54 +1,89 @@
 import { Link } from "react-router";
+import { ArrowUpRight } from "lucide-react";
 import { Logo } from "~/components/logo";
 import { nav, site } from "~/lib/site";
 
 export function SiteFooter() {
+  const links = [
+    { to: "/", label: "Home" },
+    ...nav,
+    { to: "/contact", label: "Contact" },
+  ];
   return (
-    <footer className="border-border bg-surface-sunken/60 border-t">
-      <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-[1.5fr_1fr_1fr]">
-        <div className="max-w-sm">
-          <Logo />
-          <p className="text-muted mt-4 text-sm leading-relaxed">
-            {site.tagline} An independent software studio building business
-            software for clients in India and worldwide.
-          </p>
-        </div>
-        <div>
-          <h2 className="text-text text-sm font-semibold">Explore</h2>
-          <ul className="mt-3 space-y-2 text-sm">
-            {[
-              { to: "/", label: "Home" },
-              ...nav,
-              { to: "/contact", label: "Contact" },
-            ].map((item) => (
-              <li key={item.to}>
-                <Link to={item.to} className="text-muted hover:text-text">
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div>
-          <h2 className="text-text text-sm font-semibold">Studio</h2>
-          <ul className="mt-3 space-y-2 text-sm">
-            <li>
-              <Link to="/contact" className="text-muted hover:text-text">
-                Start a project
-              </Link>
-            </li>
-            <li>
-              <Link to="/privacy" className="text-muted hover:text-text">
-                Privacy
-              </Link>
-            </li>
-          </ul>
+    <footer className="stage bg-grain relative overflow-hidden border-t border-white/5">
+      <div className="mx-auto max-w-6xl px-4 pt-20 sm:px-6">
+        <div className="grid gap-12 md:grid-cols-[1.4fr_1fr_1fr]">
+          <div>
+            <p className="font-display text-3xl leading-tight font-bold sm:text-4xl">
+              Let&apos;s build something
+              <br />
+              that{" "}
+              <span className="text-brand font-serif font-normal italic">
+                works
+              </span>
+              .
+            </p>
+            <Link
+              to="/contact"
+              viewTransition
+              className="group border-brand mt-8 inline-flex items-center gap-2 border-b pb-1 text-lg font-medium"
+            >
+              Start a project
+              <ArrowUpRight
+                className="size-5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1"
+                aria-hidden
+              />
+            </Link>
+          </div>
+          <div>
+            <h2 className="text-muted font-mono text-xs tracking-widest uppercase">
+              Explore
+            </h2>
+            <ul className="mt-4 space-y-2.5">
+              {links.map((l) => (
+                <li key={l.to}>
+                  <Link
+                    to={l.to}
+                    viewTransition
+                    className="text-text/80 hover:text-brand transition-colors"
+                  >
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h2 className="text-muted font-mono text-xs tracking-widest uppercase">
+              Studio
+            </h2>
+            <p className="text-text/80 mt-4 leading-relaxed">{site.tagline}</p>
+            <p className="text-muted mt-2 leading-relaxed">
+              Independent software studio. Working with businesses in India and
+              worldwide.
+            </p>
+            <Link
+              to="/privacy"
+              viewTransition
+              className="text-text/80 hover:text-brand mt-4 inline-block"
+            >
+              Privacy
+            </Link>
+          </div>
         </div>
       </div>
-      <div className="border-border border-t">
-        <p className="text-muted mx-auto max-w-6xl px-4 py-5 text-xs sm:px-6">
-          © {new Date().getFullYear()} Nexora. All rights reserved.
+
+      <div aria-hidden className="pointer-events-none mt-16 select-none">
+        <p className="text-outline font-display text-center text-[22vw] leading-[0.8] font-extrabold tracking-tighter">
+          Nexora
         </p>
+      </div>
+
+      <div className="relative border-t border-white/5">
+        <div className="text-muted mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-6 text-sm sm:px-6">
+          <Logo />
+          <p>© {new Date().getFullYear()} Nexora. All rights reserved.</p>
+        </div>
       </div>
     </footer>
   );

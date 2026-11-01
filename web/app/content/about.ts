@@ -65,3 +65,24 @@ export const stack = [
   "Docker",
   "GitHub Actions",
 ];
+
+export const layers = [
+  {
+    id: "interface",
+    name: "Interface",
+    body: "Fast, accessible screens your customers and staff actually enjoy using.",
+    tools: ["React", "TypeScript", "Tailwind CSS", "Motion"],
+  },
+  {
+    id: "services",
+    name: "Services",
+    body: "Secure APIs and business logic that keep your rules in one reliable place.",
+    tools: ["Java", "Spring Boot", "Spring Security", "REST APIs"],
+  },
+  {
+    id: "data",
+    name: "Data and delivery",
+    body: "Consistent data, automated tests and repeatable deployments.",
+    tools: ["PostgreSQL", "Docker", "GitHub Actions"],
+  },
+] as const;

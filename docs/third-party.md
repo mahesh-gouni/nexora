@@ -9,3 +9,7 @@
 | Lucide | `web/` dependency | https://lucide.dev | ISC | Icons. |
 | React Hook Form, Zod | `web/` dependencies | https://react-hook-form.com, https://zod.dev | MIT | Contact form. |
 | clsx, tailwind-merge, class-variance-authority | `web/` dependencies | npm | MIT | Component class utilities. |
+| Instrument Serif | `web/` via Fontsource | https://fontsource.org | SIL OFL 1.1 | Accent typeface. |
+| Three.js | `art/` (build-time only, not shipped) | https://threejs.org | MIT | Renders the 3D artwork. |
+| sharp | `art/` (build-time only) | https://sharp.pixelplumbing.com | Apache-2.0 | AVIF/WebP export. |
+| UI UX Pro Max companion skills | `.claude/skills/{banner-design,brand,design,design-system,slides,ui-styling}` | installed with ui-ux-pro-max-cli | MIT | Claude Code skills; not used by the website. |

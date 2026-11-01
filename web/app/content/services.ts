@@ -8,8 +8,11 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
+import type { ArtName } from "~/components/art";
+
 export type Service = {
   id: string;
+  art: ArtName;
   icon: LucideIcon;
   title: string;
   summary: string;
@@ -22,6 +25,7 @@ export type Service = {
 export const services: Service[] = [
   {
     id: "web-applications",
+    art: "svc-web",
     icon: Code,
     title: "Custom web applications",
     summary:
@@ -38,6 +42,7 @@ export const services: Service[] = [
   },
   {
     id: "e-commerce",
+    art: "svc-commerce",
     icon: ShoppingCart,
     title: "E-commerce solutions",
     summary:
@@ -55,6 +60,7 @@ export const services: Service[] = [
   },
   {
     id: "erp",
+    art: "svc-erp",
     icon: Boxes,
     title: "ERP and business management",
     summary:
@@ -72,6 +78,7 @@ export const services: Service[] = [
   },
   {
     id: "admin-dashboards",
+    art: "svc-dashboard",
     icon: LayoutDashboard,
     title: "Admin dashboards",
     summary:
@@ -89,6 +96,7 @@ export const services: Service[] = [
   },
   {
     id: "saas",
+    art: "svc-saas",
     icon: Layers,
     title: "SaaS product development",
     summary:
@@ -105,6 +113,7 @@ export const services: Service[] = [
   },
   {
     id: "automation",
+    art: "svc-automation",
     icon: Workflow,
     title: "Business process automation",
     summary:

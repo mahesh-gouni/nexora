@@ -7,6 +7,8 @@ This repo holds the Nexora website. Products (e-commerce, admin, ERP, CRM) get t
 - `web/`: React 19 + TypeScript (strict) + React Router 8 framework mode (`ssr: false`, every page prerendered) + Vite + Tailwind CSS v4. Hosted on Netlify (free plan); `netlify.toml` at repo root.
 - UI: own components in `app/components/ui` (shadcn-style, built with cva + tailwind-merge), Lucide icons, Motion via `LazyMotion` (always use `m.*`, never `motion.*`), React Hook Form + `zod/mini`.
 - Content lives in `app/content/*.ts`; site constants and `pageMeta()` in `app/lib/site.ts`.
+- Visual system: always-dark `.stage` sections (heroes, showcases, CTA, footer) alternate with themed sections. Artwork = pre-rendered 3D images via `<Art name>` (sources in `/art`, see `art/README.md`). Product previews are HTML concept mockups in `app/components/mockups.tsx` and must stay labelled "Concept preview".
+- Motion: first-paint entrances use CSS (`enter-rise`, `enter-fade`, `enter-art`) so they run before hydration; scroll/pointer effects live in `app/components/fx.tsx` (Magnetic, Tilt, Parallax, ScrollWords, Marquee). Everything must respect reduced motion.
 - No backend for the website. Contact form = Netlify Forms (`app/components/contact-form.tsx`). TanStack Query/Axios and Spring Boot arrive with the first product.
 
 ## Commands (run inside `web/`)
@@ -20,7 +22,7 @@ This repo holds the Nexora website. Products (e-commerce, admin, ERP, CRM) get t
 - Zero budget: free tiers only. Never add a paid service, paid component or new hosted dependency without asking.
 - Every new route must be added to `pages` in `web/react-router.config.ts` (prerender) and, if public, to `scripts/postbuild.mjs` (sitemap) and `tests/e2e/site.spec.ts`.
 - Product statuses in `app/content/products.ts` must stay truthful.
-- Brand: charcoal `#171A1C`, paper `#FBF9F7`, amber `#F5A623` (fills), `#A34A07` (amber text on light). Use semantic token classes (`bg-surface`, `text-muted`, `text-brand-ink`…) from `app/app.css`, never raw hex in components. Fonts: Manrope (display), Inter (body), JetBrains Mono (code), self-hosted via Fontsource. Never load fonts or scripts from third-party CDNs.
+- Brand: charcoal `#171A1C`, paper `#FBF9F7`, amber `#F5A623` (fills), `#A34A07` (amber text on light). Use semantic token classes (`bg-surface`, `text-muted`, `text-brand-ink`…) from `app/app.css`, never raw hex in components. Fonts: Manrope (display), Instrument Serif italic (accent words via `<Accent>`), Inter (body), JetBrains Mono (code), self-hosted via Fontsource. Never load fonts or scripts from third-party CDNs.
 - Design: use the `ui-ux-pro-max` skill to review layout, accessibility and consistency, but keep Nexora's brand colours and fonts over its generic suggestions.
 - Accessibility: WCAG 2.2 AA, visible focus, `prefers-reduced-motion` respected by every animation.
 - Borrowed UI components (21st.dev, Uilora): restyle to our tokens and record source + licence in `docs/third-party.md`.

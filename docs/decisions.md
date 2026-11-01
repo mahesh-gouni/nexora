@@ -21,3 +21,7 @@ Confirmed by the founder unless marked "delegated" (decided by Claude on the fou
 | 2026-11-01 | Components hand-built in shadcn style instead of pulling 21st.dev/Uilora pieces: one coherent system, no third-party licences to track. |
 | 2026-11-01 | No analytics at launch (zero budget, no cookie banner). Contact reply promise: "usually within two business days". |
 | 2026-11-01 | Performance: Motion loaded via LazyMotion, forms validated with `zod/mini`, above-the-fold fonts preloaded. |
+| 2026-11-01 | Visual redesign: premium dark "stage" art direction, editorial typography (Manrope + Instrument Serif italic accents), asymmetric bento, pinned horizontal process scroll, scroll-lit statement, magnetic CTAs, View Transitions between routes. |
+| 2026-11-01 | Imagery: no AI image service is available and the budget is zero, so artwork is original Three.js 3D renders (graphite, amber, smoked glass) exported as AVIF/WebP; sources in `/art`. |
+| 2026-11-01 | Product visuals are live HTML concept mockups with sample data, always labelled "Concept preview", never presented as working products. |
+| 2026-11-01 | Lighthouse (local): desktop 98 / 100 / 100 / 100; simulated slow-4G mobile 78–85 performance, 100 accessibility/SEO/best practices. Re-measure on Netlify. |

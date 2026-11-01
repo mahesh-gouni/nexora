@@ -19,7 +19,7 @@ export default function Privacy() {
     <>
       <PageHero
         eyebrow="Privacy"
-        title="Privacy policy"
+        lines={["Privacy policy"]}
         lead={`Short and plain: what this website collects, why, and what you can ask for. Last updated ${updated}.`}
       />
       <Container className="[&_p]:text-muted [&_ul]:text-muted max-w-3xl py-16 [&_h2]:mt-10 [&_h2]:text-2xl [&_h2]:font-bold [&_li]:mt-2 [&_p]:mt-4 [&_p]:leading-relaxed [&_ul]:mt-4 [&_ul]:list-disc [&_ul]:pl-6">

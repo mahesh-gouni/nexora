@@ -1,7 +1,7 @@
 import type { Route } from "./+types/contact";
-import { Container, PageHero, Section } from "~/components/section";
+import { Accent, Container, PageHero } from "~/components/section";
 import { ContactForm } from "~/components/contact-form";
-import { Card } from "~/components/ui/card";
+import { Reveal, RevealGroup, RevealItem } from "~/components/motion";
 import { pageMeta } from "~/lib/site";
 
 export function meta({}: Route.MetaArgs) {
@@ -14,9 +14,15 @@ export function meta({}: Route.MetaArgs) {
 }
 
 const nextSteps = [
-  "You'll get a personal reply by email, usually within two business days.",
-  "A short call or email exchange to understand your goals and constraints.",
-  "A written proposal with scope, milestones and an estimate. No work starts before you agree.",
+  ["Reply", "A personal reply by email, usually within two business days."],
+  [
+    "Conversation",
+    "A short call or email exchange about your goals and constraints.",
+  ],
+  [
+    "Proposal",
+    "Written scope, milestones and an estimate. No work starts before you agree.",
+  ],
 ];
 
 const faqs = [
@@ -43,52 +49,73 @@ export default function Contact() {
     <>
       <PageHero
         eyebrow="Contact"
-        title="Tell Nexora about your project"
+        art="svc-web"
+        lines={[
+          "Tell Nexora about",
+          <>
+            your <Accent>project</Accent>.
+          </>,
+        ]}
         lead="A few sentences is enough to start. Describe what you need and you'll get a clear, honest reply."
       />
-      <Section>
-        <Container className="grid gap-10 lg:grid-cols-[1.4fr_1fr]">
-          <Card className="p-6 sm:p-8">
+      <section className="py-20 sm:py-28">
+        <Container className="grid gap-12 lg:grid-cols-[1.35fr_1fr]">
+          <Reveal className="border-border bg-surface shadow-raised rounded-[28px] border p-6 sm:p-10">
+            <h2 className="text-2xl font-bold">Project details</h2>
+            <p className="text-muted mt-1 mb-8">
+              Fields marked optional can be skipped.
+            </p>
             <ContactForm />
-          </Card>
+          </Reveal>
 
-          <div className="space-y-10">
+          <div className="space-y-12">
             <div>
-              <h2 className="text-xl font-bold">What happens next</h2>
-              <ol className="mt-5 space-y-4">
-                {nextSteps.map((s, i) => (
-                  <li key={s} className="flex gap-4">
-                    <span className="bg-brand-soft text-brand-ink flex size-7 shrink-0 items-center justify-center rounded-full font-mono text-sm font-medium">
+              <h2 className="text-2xl font-bold">What happens next</h2>
+              <RevealGroup className="mt-6 space-y-3">
+                {nextSteps.map(([t, d], i) => (
+                  <RevealItem
+                    key={t}
+                    className="border-border flex gap-4 rounded-2xl border p-4"
+                  >
+                    <span className="bg-brand text-on-brand flex size-9 shrink-0 items-center justify-center rounded-full font-mono text-sm font-semibold">
                       {i + 1}
                     </span>
-                    <span className="text-muted leading-relaxed">{s}</span>
-                  </li>
+                    <span>
+                      <span className="block font-semibold">{t}</span>
+                      <span className="text-muted">{d}</span>
+                    </span>
+                  </RevealItem>
                 ))}
-              </ol>
+              </RevealGroup>
             </div>
 
             <div>
-              <h2 className="text-xl font-bold">Common questions</h2>
+              <h2 className="text-2xl font-bold">Common questions</h2>
               <div className="divide-border border-border mt-4 divide-y border-y">
                 {faqs.map((f) => (
-                  <details key={f.q} className="group py-4">
+                  <details
+                    key={f.q}
+                    className="group py-4 [&_summary::-webkit-details-marker]:hidden"
+                  >
                     <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-medium">
                       {f.q}
                       <span
-                        className="text-muted text-xl transition-transform group-open:rotate-45"
                         aria-hidden
+                        className="border-border text-muted group-open:border-brand group-open:bg-brand group-open:text-on-brand flex size-7 shrink-0 items-center justify-center rounded-full border transition-all duration-300 group-open:rotate-45"
                       >
                         +
                       </span>
                     </summary>
-                    <p className="text-muted mt-3 leading-relaxed">{f.a}</p>
+                    <p className="text-muted mt-3 pr-10 leading-relaxed">
+                      {f.a}
+                    </p>
                   </details>
                 ))}
               </div>
             </div>
           </div>
         </Container>
-      </Section>
+      </section>
     </>
   );
 }
