@@ -15,3 +15,9 @@ Confirmed by the founder unless marked "delegated" (decided by Claude on the fou
 | 2026-11-01 | No existing portfolio: Work page hidden at launch. |
 | 2026-11-01 | Stack: React Router 8 framework mode, prerendered (`ssr: false`), Vite, Tailwind v4, self-hosted fonts. |
 | 2026-11-01 | UI UX Pro Max installed as a project skill (MIT); used for review, not to override brand colours. |
+| 2026-11-01 | Website v1 built: Home, Services, Products, About, Contact, Privacy, hidden /styleguide, 404. Work page omitted until real case studies exist. |
+| 2026-11-01 | Logo redrawn as SVG (`docs/brand/nexora-mark*.svg`, `web/public/favicon.svg`); social image `web/public/og.png`. |
+| 2026-11-01 | Amber text colour darkened to `#A34A07` for contrast (5.6:1 on paper). All token pairs pass WCAG AA in both themes. |
+| 2026-11-01 | Components hand-built in shadcn style instead of pulling 21st.dev/Uilora pieces: one coherent system, no third-party licences to track. |
+| 2026-11-01 | No analytics at launch (zero budget, no cookie banner). Contact reply promise: "usually within two business days". |
+| 2026-11-01 | Performance: Motion loaded via LazyMotion, forms validated with `zod/mini`, above-the-fold fonts preloaded. |

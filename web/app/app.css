@@ -1,26 +1,174 @@
 @import "tailwindcss";
 
+/* Dark mode is class-based so the theme toggle can override the OS setting. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /*
- * Placeholder tokens. The full Nexora token set (colour, type scale,
- * spacing, radius, motion) is defined in Week 2 per the design-system
- * proposal, then reviewed with UI UX Pro Max.
+ * Nexora design tokens
+ * --------------------
+ * Semantic colours are CSS variables (light values on :root, dark values on
+ * .dark). Tailwind utilities read them through @theme inline, so components
+ * use names like `bg-surface` or `text-muted` and never raw hex values.
+ * Brand source: the Nexora logo (charcoal #171a1c, amber #fcb033).
  */
+:root {
+  --bg: #fbf9f7;
+  --surface: #ffffff;
+  --surface-sunken: #f3f0eb;
+  --text: #171a1c;
+  --text-muted: #55595e;
+  --border: #e7e3dc;
+  --border-strong: #cfc9bf;
+  --brand: #f5a623;
+  --brand-hover: #e8950f;
+  --on-brand: #171a1c;
+  --brand-ink: #a34a07;
+  --brand-soft: #fdf1dc;
+  --success: #15803d;
+  --danger: #b91c1c;
+  --ring: #a34a07;
+  --grid-line: rgb(23 26 28 / 0.06);
+  --glow: rgb(245 166 35 / 0.18);
+}
+
+.dark {
+  --bg: #121517;
+  --surface: #1a1e21;
+  --surface-sunken: #0d0f11;
+  --text: #f2efea;
+  --text-muted: #a7abb0;
+  --border: #2a3034;
+  --border-strong: #3b4247;
+  --brand: #fcb033;
+  --brand-hover: #ffc35c;
+  --on-brand: #171a1c;
+  --brand-ink: #fcb033;
+  --brand-soft: rgb(252 176 51 / 0.12);
+  --success: #4ade80;
+  --danger: #f87171;
+  --ring: #fcb033;
+  --grid-line: rgb(242 239 234 / 0.05);
+  --glow: rgb(252 176 51 / 0.16);
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-sunken: var(--surface-sunken);
+  --color-text: var(--text);
+  --color-muted: var(--text-muted);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-brand: var(--brand);
+  --color-brand-hover: var(--brand-hover);
+  --color-on-brand: var(--on-brand);
+  --color-brand-ink: var(--brand-ink);
+  --color-brand-soft: var(--brand-soft);
+  --color-success: var(--success);
+  --color-danger: var(--danger);
+  --color-ring: var(--ring);
+}
+
 @theme {
+  /* Fixed brand values (same in both themes) */
+  --color-charcoal: #171a1c;
+  --color-graphite: #35393d;
+  --color-paper: #fbf9f7;
+  --color-amber: #f5a623;
+
   --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Manrope Variable", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono Variable", ui-monospace, monospace;
 
-  --color-ink: #171a1c;
-  --color-paper: #fbf9f7;
-  --color-brand: #f5a623;
-  --color-brand-ink: #b45309;
+  /* Type scale: 12 / 14 / 16 / 18 / 20 / 24 / 30 / 36 / 48 / 60 (Tailwind defaults) */
+
+  --radius-input: 6px;
+  --radius-control: 10px;
+  --radius-panel: 16px;
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+  --duration-slow: 400ms;
+
+  --shadow-card:
+    0 1px 2px rgb(23 26 28 / 0.04), 0 4px 16px rgb(23 26 28 / 0.06);
+  --shadow-raised:
+    0 2px 4px rgb(23 26 28 / 0.06), 0 12px 32px rgb(23 26 28 / 0.1);
 }
 
-html,
-body {
-  @apply bg-paper text-ink dark:bg-ink dark:text-paper;
-
-  @media (prefers-color-scheme: dark) {
-    color-scheme: dark;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
   }
+  body {
+    background: var(--bg);
+    color: var(--text);
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  ::selection {
+    background: var(--brand);
+    color: var(--on-brand);
+  }
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+  .dark .shadow-card,
+  .dark .shadow-raised {
+    box-shadow: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Decorative backgrounds */
+@utility bg-grid {
+  background-image:
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+@utility bg-glow {
+  background-image: radial-gradient(
+    60% 50% at 50% 0%,
+    var(--glow) 0%,
+    transparent 70%
+  );
+}
+
+/* Grid and glow combined (each layer keeps its own size). */
+@utility bg-grid-glow {
+  background-image:
+    radial-gradient(55% 60% at 75% 0%, var(--glow) 0%, transparent 70%),
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  background-size:
+    100% 100%,
+    48px 48px,
+    48px 48px;
 }

@@ -10,8 +10,12 @@ Requires Node.js 22+.
 cd web
 npm install
 npm run dev      # http://localhost:5173
-npm run check    # typecheck, lint, format, tests, build
+npm run check    # typecheck, lint, format, unit tests, build
+npx playwright install chromium   # once
+npm run test:e2e # browser tests against the built site
 ```
+
+Pages: `/`, `/services`, `/products`, `/about`, `/contact`, `/privacy`, plus an unlisted `/styleguide`.
 
 ## Deploy
 
