@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+/*
+ * Placeholder tokens. The full Nexora token set (colour, type scale,
+ * spacing, radius, motion) is defined in Week 2 per the design-system
+ * proposal, then reviewed with UI UX Pro Max.
+ */
+@theme {
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Manrope Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, monospace;
+
+  --color-ink: #171a1c;
+  --color-paper: #fbf9f7;
+  --color-brand: #f5a623;
+  --color-brand-ink: #b45309;
+}
+
+html,
+body {
+  @apply bg-paper text-ink dark:bg-ink dark:text-paper;
+
+  @media (prefers-color-scheme: dark) {
+    color-scheme: dark;
+  }
+}
