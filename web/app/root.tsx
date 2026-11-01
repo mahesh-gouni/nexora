@@ -32,6 +32,7 @@ const orgJsonLd = JSON.stringify({
   logo: new URL("/favicon.svg", SITE_URL).toString(),
   description: site.description,
   slogan: site.tagline,
+  email: site.email,
 });
 
 // Without JavaScript, scroll-reveal content would stay invisible: show it.

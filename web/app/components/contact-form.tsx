@@ -2,7 +2,13 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AnimatePresence, m } from "motion/react";
-import { CircleAlert, CircleCheck, LoaderCircle, Send } from "lucide-react";
+import {
+  CircleAlert,
+  CircleCheck,
+  LoaderCircle,
+  Mail,
+  Send,
+} from "lucide-react";
 
 import { Button } from "~/components/ui/button";
 import {
@@ -15,17 +21,22 @@ import {
 import {
   FORM_NAME,
   contactSchema,
+  draftFromValues,
   encodeSubmission,
+  mailtoHref,
   projectTypes,
   timelines,
   type ContactInput,
   type ContactValues,
+  type EmailDraft,
 } from "~/lib/contact";
+import { EmailFallbacks } from "~/components/email-options";
 
 type Status = "idle" | "success" | "error";
 
 export function ContactForm() {
   const [status, setStatus] = useState<Status>("idle");
+  const [emailDraft, setEmailDraft] = useState<EmailDraft | null>(null);
   const {
     register,
     handleSubmit,
@@ -58,6 +69,14 @@ export function ContactForm() {
     } catch {
       setStatus("error");
     }
+  }
+
+  // Same validated data, handed to the visitor's own email app instead.
+  function onEmail(values: ContactValues) {
+    const draft = draftFromValues(values);
+    setStatus("idle");
+    setEmailDraft(draft);
+    window.location.assign(mailtoHref(draft));
   }
 
   const describedBy = (field: keyof ContactInput) =>
@@ -173,31 +192,59 @@ export function ContactForm() {
         <FieldError id="message-error" message={errors.message?.message} />
       </div>
 
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-muted text-sm">
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+        <p className="text-muted text-sm lg:max-w-56">
           Your details are used only to reply. See the{" "}
           <a href="/privacy" className="text-brand-ink underline">
             privacy policy
           </a>
           .
         </p>
-        <Button
-          type="submit"
-          size="lg"
-          disabled={isSubmitting}
-          className="shrink-0"
-        >
-          {isSubmitting ? (
-            <>
-              <LoaderCircle className="animate-spin" aria-hidden /> Sending…
-            </>
-          ) : (
-            <>
-              Send message <Send aria-hidden />
-            </>
-          )}
-        </Button>
+        <div className="flex shrink-0 flex-wrap gap-2">
+          <Button
+            type="button"
+            size="lg"
+            variant="secondary"
+            onClick={handleSubmit(onEmail)}
+            data-testid="send-via-email"
+          >
+            <Mail aria-hidden /> Send via email
+          </Button>
+          <Button type="submit" size="lg" disabled={isSubmitting}>
+            {isSubmitting ? (
+              <>
+                <LoaderCircle className="animate-spin" aria-hidden /> Sending…
+              </>
+            ) : (
+              <>
+                Send message <Send aria-hidden />
+              </>
+            )}
+          </Button>
+        </div>
       </div>
+
+      {emailDraft && (
+        <div
+          role="status"
+          className="rounded-control border-border bg-surface-sunken border p-4 text-sm"
+        >
+          <p>
+            <strong className="font-semibold">
+              Your email app should open with everything filled in.
+            </strong>{" "}
+            Nothing opened?{" "}
+            <a
+              href={mailtoHref(emailDraft)}
+              className="text-brand-ink underline"
+            >
+              Open email app again
+            </a>{" "}
+            or send the same message with:
+          </p>
+          <EmailFallbacks draft={emailDraft} className="mt-3" />
+        </div>
+      )}
 
       <div id="form-status" role="status" aria-live="polite">
         <AnimatePresence mode="wait">

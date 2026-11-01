@@ -3,6 +3,8 @@ import { Accent, Container, PageHero } from "~/components/section";
 import { ContactForm } from "~/components/contact-form";
 import { Reveal, RevealGroup, RevealItem } from "~/components/motion";
 import { pageMeta } from "~/lib/site";
+import { EmailCard } from "~/components/email-options";
+import { templateDraft } from "~/lib/contact";
 
 export function meta({}: Route.MetaArgs) {
   return pageMeta({
@@ -69,6 +71,7 @@ export default function Contact() {
           </Reveal>
 
           <div className="space-y-12">
+            <EmailCard draft={templateDraft} />
             <div>
               <h2 className="text-2xl font-bold">What happens next</h2>
               <RevealGroup className="mt-6 space-y-3">

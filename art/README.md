@@ -18,3 +18,7 @@ npm run export
 ```
 
 If you add or resize an image, update `artSizes` / `artRatio` in `web/app/components/art.tsx`.
+
+## Live versions
+
+The website animates these compositions in real time from `web/app/three/scenes.ts`, which mirrors the scenes here and adds motion. When you change a composition, update both so the still and the live version match.

@@ -1,7 +1,7 @@
 import type { Route } from "./+types/privacy";
 import { Link } from "react-router";
 import { Container, PageHero } from "~/components/section";
-import { pageMeta } from "~/lib/site";
+import { pageMeta, site } from "~/lib/site";
 
 export function meta({}: Route.MetaArgs) {
   return pageMeta({
@@ -25,7 +25,8 @@ export default function Privacy() {
       <Container className="[&_p]:text-muted [&_ul]:text-muted max-w-3xl py-16 [&_h2]:mt-10 [&_h2]:text-2xl [&_h2]:font-bold [&_li]:mt-2 [&_p]:mt-4 [&_p]:leading-relaxed [&_ul]:mt-4 [&_ul]:list-disc [&_ul]:pl-6">
         <h2>What is collected</h2>
         <p>
-          Only what you choose to send through the{" "}
+          Only what you choose to send, either by email to {site.email} or
+          through the{" "}
           <Link to="/contact" className="text-brand-ink underline">
             contact form
           </Link>
@@ -52,16 +53,17 @@ export default function Privacy() {
         <h2>Where it is stored</h2>
         <p>
           The website is hosted on Netlify, and contact form submissions are
-          processed and stored by Netlify Forms. Submissions are kept only as
-          long as needed to handle your enquiry.
+          processed and stored by Netlify Forms; emails arrive in a Gmail
+          mailbox. Both are kept only as long as needed to handle your enquiry.
         </p>
 
         <h2>Your choices</h2>
         <p>
           You can ask for a copy of the information you sent, ask for it to be
           corrected, or ask for it to be deleted. Send the request through the
-          contact form and it will be handled promptly. This policy is intended
-          to follow India's Digital Personal Data Protection Act, 2023.
+          contact form, or email {site.email}, and it will be handled promptly.
+          This policy is intended to follow India's Digital Personal Data
+          Protection Act, 2023.
         </p>
 
         <h2>Changes</h2>

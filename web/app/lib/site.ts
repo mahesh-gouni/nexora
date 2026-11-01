@@ -3,6 +3,7 @@ export const SITE_URL: string = __SITE_URL__;
 
 export const site = {
   name: "Nexora",
+  email: "nexorafinity@gmail.com",
   tagline: "Ideas into Working Software.",
   description:
     "Nexora is an independent software studio that designs and builds web applications, e-commerce, ERP and admin systems for businesses in India and worldwide.",

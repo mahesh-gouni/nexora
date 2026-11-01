@@ -120,6 +120,43 @@ test.describe("contact form", () => {
     ).toBeVisible();
   });
 
+  test("send via email prefills the visitor's mail app, with web fallbacks", async ({
+    page,
+  }) => {
+    await page.goto("/contact");
+    await page.waitForLoadState("networkidle");
+    await page.getByLabel("Name").fill("Asha Rao");
+    await page.getByLabel("Email").fill("asha@example.com");
+    await page
+      .getByLabel("Project type")
+      .selectOption("ERP / business management");
+    await page
+      .getByLabel("About your project")
+      .fill("We need inventory and invoicing in one place.");
+    await page.getByTestId("send-via-email").click();
+    const again = page.getByRole("link", { name: "Open email app again" });
+    await expect(again).toBeVisible();
+    const mailto = (await again.getAttribute("href")) ?? "";
+    expect(mailto).toMatch(/^mailto:nexorafinity@gmail\.com\?subject=/);
+    expect(decodeURIComponent(mailto)).toContain("Name: Asha Rao");
+    const gmail = page.getByRole("link", { name: "Gmail" }).first();
+    await expect(gmail).toHaveAttribute(
+      "href",
+      /mail\.google\.com.*Asha%20Rao/,
+    );
+  });
+
+  test("the contact page shows the studio email address", async ({ page }) => {
+    await page.goto("/contact");
+    const link = page
+      .getByRole("link", { name: "nexorafinity@gmail.com" })
+      .first();
+    await expect(link).toHaveAttribute(
+      "href",
+      /^mailto:nexorafinity@gmail\.com\?subject=Project%20enquiry/,
+    );
+  });
+
   test("the static HTML carries the Netlify form attributes", async ({
     request,
   }) => {

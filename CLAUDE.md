@@ -7,9 +7,9 @@ This repo holds the Nexora website. Products (e-commerce, admin, ERP, CRM) get t
 - `web/`: React 19 + TypeScript (strict) + React Router 8 framework mode (`ssr: false`, every page prerendered) + Vite + Tailwind CSS v4. Hosted on Netlify (free plan); `netlify.toml` at repo root.
 - UI: own components in `app/components/ui` (shadcn-style, built with cva + tailwind-merge), Lucide icons, Motion via `LazyMotion` (always use `m.*`, never `motion.*`), React Hook Form + `zod/mini`.
 - Content lives in `app/content/*.ts`; site constants and `pageMeta()` in `app/lib/site.ts`.
-- Visual system: always-dark `.stage` sections (heroes, showcases, CTA, footer) alternate with themed sections. Artwork = pre-rendered 3D images via `<Art name>` (sources in `/art`, see `art/README.md`). Product previews are HTML concept mockups in `app/components/mockups.tsx` and must stay labelled "Concept preview".
+- Visual system: always-dark `.stage` sections (heroes, showcases, CTA, footer) alternate with themed sections. Artwork = `<Art name>`: a pre-rendered AVIF/WebP still (from `/art`) that is replaced by the live animated Three.js scene (`app/three/scenes.ts`, lazy-loaded, runs only while visible; off for reduced motion, data saver, software GPUs). Keep `art/scenes` and `app/three/scenes.ts` compositions in sync. Product previews are HTML concept mockups in `app/components/mockups.tsx` and must stay labelled "Concept preview".
 - Motion: first-paint entrances use CSS (`enter-rise`, `enter-fade`, `enter-art`) so they run before hydration; scroll/pointer effects live in `app/components/fx.tsx` (Magnetic, Tilt, Parallax, ScrollWords, Marquee). Everything must respect reduced motion.
-- No backend for the website. Contact form = Netlify Forms (`app/components/contact-form.tsx`). TanStack Query/Axios and Spring Boot arrive with the first product.
+- Contact: studio email `nexorafinity@gmail.com` (`site.email`). The form submits to Netlify Forms or, via "Send via email", opens the visitor's mail app with a prefilled draft (mailto, plus Gmail/Outlook web and copy fallbacks; helpers in `app/lib/contact.ts`). No backend for the website. TanStack Query/Axios and Spring Boot arrive with the first product.
 
 ## Commands (run inside `web/`)
 - `npm run dev`: local dev server

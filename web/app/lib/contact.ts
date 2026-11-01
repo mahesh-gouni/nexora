@@ -1,3 +1,4 @@
+import { site } from "~/lib/site";
 import * as z from "zod/mini";
 
 export const FORM_NAME = "contact";
@@ -69,4 +70,72 @@ export function encodeSubmission(values: ContactValues, botField = ""): string {
     message: values.message,
   };
   return new URLSearchParams(data).toString();
+}
+
+/* ---------- Email hand-off (works without Netlify) ---------- */
+
+// Some mail clients (notably on Windows) truncate long mailto URLs.
+const MAX_MAILTO_BODY = 1600;
+
+export type EmailDraft = { to: string; subject: string; body: string };
+
+/** Builds a prefilled email from the contact form values. */
+export function draftFromValues(values: ContactValues): EmailDraft {
+  const lines = [
+    `Name: ${values.name}`,
+    `Email: ${values.email}`,
+    values.company ? `Company: ${values.company}` : null,
+    `Project type: ${values.projectType}`,
+    values.timeline ? `Timeline: ${values.timeline}` : null,
+    "",
+    "About the project:",
+    values.message,
+  ].filter((l): l is string => l !== null);
+  return {
+    to: site.email,
+    subject: `Project enquiry: ${values.projectType}${values.company ? ` (${values.company})` : ""}`,
+    body: lines.join("\n"),
+  };
+}
+
+/** A blank enquiry template for plain "email us" links. */
+export const templateDraft: EmailDraft = {
+  to: site.email,
+  subject: "Project enquiry",
+  body: [
+    "Hi Nexora,",
+    "",
+    "Name:",
+    "Company (optional):",
+    "Project type:",
+    "Timeline:",
+    "",
+    "About the project:",
+    "",
+  ].join("\n"),
+};
+
+function clip(body: string, max: number) {
+  return body.length > max
+    ? `${body.slice(0, max)}\n\n[message shortened]`
+    : body;
+}
+
+// RFC 6068: encode with %20 (not +) and CRLF line breaks for best client support.
+const enc = (s: string) => encodeURIComponent(s.replace(/\r?\n/g, "\r\n"));
+
+export function mailtoHref(d: EmailDraft) {
+  return `mailto:${d.to}?subject=${enc(d.subject)}&body=${enc(clip(d.body, MAX_MAILTO_BODY))}`;
+}
+
+export function gmailHref(d: EmailDraft) {
+  return `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(d.to)}&su=${enc(d.subject)}&body=${enc(d.body)}`;
+}
+
+export function outlookHref(d: EmailDraft) {
+  return `https://outlook.live.com/mail/0/deeplink/compose?to=${encodeURIComponent(d.to)}&subject=${enc(d.subject)}&body=${enc(d.body)}`;
+}
+
+export function draftAsText(d: EmailDraft) {
+  return `To: ${d.to}\nSubject: ${d.subject}\n\n${d.body}`;
 }

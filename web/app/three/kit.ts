@@ -1,0 +1,145 @@
+import * as THREE from "three";
+import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
+
+/** Nexora material library and scene helpers (mirrors art/harness.html). */
+export function createKit(scene: THREE.Scene) {
+  const M = {
+    graphite: new THREE.MeshPhysicalMaterial({
+      color: 0x2b2f33,
+      roughness: 0.32,
+      metalness: 0.15,
+      clearcoat: 1,
+      clearcoatRoughness: 0.18,
+    }),
+    graphiteMatte: new THREE.MeshPhysicalMaterial({
+      color: 0x3a3f44,
+      roughness: 0.62,
+      metalness: 0.05,
+    }),
+    ink: new THREE.MeshPhysicalMaterial({
+      color: 0x16191b,
+      roughness: 0.22,
+      metalness: 0.3,
+      clearcoat: 1,
+      clearcoatRoughness: 0.1,
+    }),
+    amber: new THREE.MeshPhysicalMaterial({
+      color: 0xf5a623,
+      roughness: 0.28,
+      metalness: 0.05,
+      clearcoat: 0.8,
+      clearcoatRoughness: 0.2,
+      emissive: 0x6a3a00,
+      emissiveIntensity: 0.25,
+    }),
+    amberGlow: new THREE.MeshPhysicalMaterial({
+      color: 0xf5a623,
+      emissive: 0xf5a623,
+      emissiveIntensity: 0.55,
+      roughness: 0.3,
+      clearcoat: 1,
+    }),
+    glass: new THREE.MeshPhysicalMaterial({
+      color: 0x2a3036,
+      transparent: true,
+      opacity: 0.62,
+      roughness: 0.08,
+      metalness: 0.4,
+      clearcoat: 1,
+      clearcoatRoughness: 0.05,
+      envMapIntensity: 1.6,
+    }),
+    glassLight: new THREE.MeshPhysicalMaterial({
+      color: 0xf2efea,
+      transparent: true,
+      opacity: 0.16,
+      roughness: 0.1,
+      metalness: 0.1,
+      clearcoat: 1,
+      envMapIntensity: 2,
+    }),
+  };
+
+  const shadowed = <T extends THREE.Mesh>(m: T) => {
+    m.castShadow = true;
+    m.receiveShadow = true;
+    return m;
+  };
+
+  return {
+    THREE,
+    M,
+    capsuleBetween(
+      a: [number, number, number],
+      b: [number, number, number],
+      r: number,
+      mat: THREE.Material,
+    ) {
+      const A = new THREE.Vector3(...a);
+      const B = new THREE.Vector3(...b);
+      const m = shadowed(
+        new THREE.Mesh(
+          new THREE.CapsuleGeometry(r, A.distanceTo(B), 12, 40),
+          mat,
+        ),
+      );
+      m.position.copy(A).add(B).multiplyScalar(0.5);
+      m.quaternion.setFromUnitVectors(
+        new THREE.Vector3(0, 1, 0),
+        B.clone().sub(A).normalize(),
+      );
+      return m;
+    },
+    box(w: number, h: number, d: number, r: number, mat: THREE.Material) {
+      return shadowed(
+        new THREE.Mesh(new RoundedBoxGeometry(w, h, d, 4, r), mat),
+      );
+    },
+    sphere(r: number, mat: THREE.Material) {
+      const m = new THREE.Mesh(new THREE.SphereGeometry(r, 48, 32), mat);
+      m.castShadow = true;
+      return m;
+    },
+    ground(y = 0, opacity = 0.35) {
+      const g = new THREE.Mesh(
+        new THREE.PlaneGeometry(200, 200),
+        new THREE.ShadowMaterial({ opacity }),
+      );
+      g.rotation.x = -Math.PI / 2;
+      g.position.y = y;
+      g.receiveShadow = true;
+      return g;
+    },
+    lights({
+      key = [6, 10, 6] as [number, number, number],
+      keyI = 2.2,
+      rim = [-6, 4, -6] as [number, number, number],
+      rimI = 18,
+      fill = 0.25,
+    } = {}) {
+      const k = new THREE.DirectionalLight(0xfff1dd, keyI);
+      k.position.set(...key);
+      k.castShadow = true;
+      k.shadow.mapSize.set(1024, 1024);
+      Object.assign(k.shadow.camera, {
+        left: -12,
+        right: 12,
+        top: 12,
+        bottom: -12,
+        near: 0.5,
+        far: 60,
+      });
+      k.shadow.bias = -0.0005;
+      const r = new THREE.PointLight(0xf5a623, rimI, 40, 1.6);
+      r.position.set(...rim);
+      scene.add(k, r, new THREE.AmbientLight(0xffffff, fill));
+      return { k, r };
+    },
+    rng(seed: number) {
+      let s = seed;
+      return () => ((s = (s * 16807) % 2147483647) - 1) / 2147483646;
+    },
+  };
+}
+
+export type Kit = ReturnType<typeof createKit>;

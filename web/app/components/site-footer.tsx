@@ -2,6 +2,7 @@ import { Link } from "react-router";
 import { ArrowUpRight } from "lucide-react";
 import { Logo } from "~/components/logo";
 import { nav, site } from "~/lib/site";
+import { mailtoHref, templateDraft } from "~/lib/contact";
 
 export function SiteFooter() {
   const links = [
@@ -62,6 +63,12 @@ export function SiteFooter() {
               Independent software studio. Working with businesses in India and
               worldwide.
             </p>
+            <a
+              href={mailtoHref(templateDraft)}
+              className="text-text hover:text-brand mt-4 block font-medium break-all"
+            >
+              {site.email}
+            </a>
             <Link
               to="/privacy"
               viewTransition
